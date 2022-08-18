@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:opencv_4/factory/pathfrom.dart';
 import 'package:opencv_4/opencv_4.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:opencv_canny_test/constants/strings.dart'; 
+import 'package:opencv_canny_test/constants/strings.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key, this.title}) : super(key: key);
@@ -42,15 +42,14 @@ class _HomeState extends State<Home> {
     required int thresholdType,
   }) async {
     try {
-      //testing with threshold
-      _byte = await Cv2.threshold(
+      // testing with Sobel
+      _byte = await Cv2.sobel(
         pathFrom: pathFrom,
         pathString: pathString,
-        maxThresholdValue: maxThresholdValue,
-        thresholdType: thresholdType,
-        thresholdValue: thresholdValue,
+        depth: -1,   // depth of the image (-1)
+        dx: 1,       // x-derivative. (0 or 1)
+        dy: 0,       // y-derivative. (0 or 1)
       );
-
       setState(() {
         _byte;
         _visible = false;
