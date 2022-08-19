@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "212481539663",
+    "project_id": "edgedetection-9accb",
+    "storage_bucket": "edgedetection-9accb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212481539663:android:a4aa629149c3c5e95db43a",
+        "android_client_info": {
+          "package_name": "com.example.opencv_canny_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212481539663-1c03khcpke174l0lh8lp9pnistmj1too.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPpTUtB2xlkVlmQZJTeiOJbkb8WZcmxGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212481539663-1c03khcpke174l0lh8lp9pnistmj1too.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
