@@ -1,11 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
+import 'package:opencv_4/factory/pathfrom.dart';
+import 'package:opencv_4/opencv_4.dart';
 
 class UploadToStorage extends StatefulWidget {
   const UploadToStorage({Key? key}) : super(key: key);
@@ -16,6 +21,36 @@ class UploadToStorage extends StatefulWidget {
 
 class _UploadToStorageState extends State<UploadToStorage> {
   FirebaseStorage storage = FirebaseStorage.instance;
+
+  File? _image;
+  Uint8List? _byte;
+
+  // Image processing with sobel
+  processImage({
+    required String pathString,
+    required CVPathFrom pathFrom,
+    required double thresholdValue,
+    required double maxThresholdValue,
+    required int thresholdType,
+  }) async {
+    try {
+      log('Processing', name: 'inside sobel processing ');
+      // testing with Sobel
+      _byte = await Cv2.sobel(
+        pathFrom: pathFrom,
+        pathString: pathString,
+        depth: -1, // depth of the image (-1)
+        dx: 1, // x-derivative. (0 or 1)
+        dy: 0, // y-derivative. (0 or 1)
+      );
+      setState(() {
+        _byte;
+        // _visible = false;
+      });
+    } on PlatformException catch (e) {
+      log(e.message!);
+    }
+  }
 
   // upload to Firebase Storage
   Future<void> _upload(String inputSource) async {
@@ -29,16 +64,27 @@ class _UploadToStorageState extends State<UploadToStorage> {
           maxWidth: 1920);
 
       final String fileName = path.basename(pickedImage!.path);
-      File imageFile = File(pickedImage.path);
+      File _image = File(pickedImage.path);
+
+    processImage(
+      pathFrom: CVPathFrom.GALLERY_CAMERA,
+      pathString: _image.path,
+      thresholdValue: 150,
+      maxThresholdValue: 200,
+      thresholdType: Cv2.THRESH_BINARY,
+    );
 
       try {
-        // Image Upload
+        // Original Image Upload
         await storage.ref(fileName).putFile(
-            imageFile,
-            SettableMetadata(customMetadata: {
-              'uploaded_at': '..',
-              'description': 'original image..'
-            }));
+              _image,
+              SettableMetadata(
+                customMetadata: {
+                  'uploaded_at': DateTime.now().toString(),
+                  'description': 'original image..'
+                },
+              ),
+            );
 
         // Refresh the UI
         setState(() {});
@@ -64,7 +110,17 @@ class _UploadToStorageState extends State<UploadToStorage> {
 
     await Future.forEach<Reference>(allFiles, (file) async {
       final String fileUrl = await file.getDownloadURL();
-      log(fileUrl , name: 'DOWNLOADED URL:');
+      log(fileUrl, name: 'DOWNLOADED URL:');
+
+      //PROCESS FROM url
+      // processImage(
+      //   pathFrom: CVPathFrom.URL,
+      //   pathString: fileUrl,
+      //   thresholdValue: 150,
+      //   maxThresholdValue: 200,
+      //   thresholdType: Cv2.THRESH_BINARY,
+      // );
+
       final FullMetadata fileMeta = await file.getMetadata();
       files.add({
         "url": fileUrl,
@@ -94,6 +150,24 @@ class _UploadToStorageState extends State<UploadToStorage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            Container(
+              margin: const EdgeInsets.only(top: 5),
+              child: _byte != null
+                  ? Image.memory(
+                      _byte!,
+                      width: 300,
+                      height: 300,
+                      fit: BoxFit.fill,
+                    )
+                  : SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
