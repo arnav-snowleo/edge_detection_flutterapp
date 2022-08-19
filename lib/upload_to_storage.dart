@@ -24,8 +24,7 @@ class _UploadToStorageState extends State<UploadToStorage> {
 
   File? _image;
   Uint8List? _byte;
-  bool _visible = false;
-  // final picker = ImagePicker();
+
   // Image processing with sobel
   processImage({
     required String pathString,
