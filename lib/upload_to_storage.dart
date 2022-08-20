@@ -11,6 +11,7 @@ import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:opencv_4/factory/pathfrom.dart';
 import 'package:opencv_4/opencv_4.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadToStorage extends StatefulWidget {
   const UploadToStorage({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _UploadToStorageState extends State<UploadToStorage> {
   File? _image;
   Uint8List? _byte;
 
-  // Image processing with sobel
+  // Process Image
   processImage({
     required String pathString,
     required CVPathFrom pathFrom,
@@ -35,7 +36,8 @@ class _UploadToStorageState extends State<UploadToStorage> {
   }) async {
     try {
       log('Processing', name: 'inside sobel processing ');
-      // testing with Sobel
+
+      /// [Sobel]
       _byte = await Cv2.sobel(
         pathFrom: pathFrom,
         pathString: pathString,
@@ -43,17 +45,17 @@ class _UploadToStorageState extends State<UploadToStorage> {
         dx: 1, // x-derivative. (0 or 1)
         dy: 0, // y-derivative. (0 or 1)
       );
+      _byte != null ? await _uploadProcessedImage(_byte!) : log('not uploading processed image');
       setState(() {
         _byte;
-        // _visible = false;
       });
     } on PlatformException catch (e) {
       log(e.message!);
     }
   }
 
-  // upload to Firebase Storage
-  Future<void> _upload(String inputSource) async {
+  // Original Image upload 
+  Future<void> _uploadOrignalImage(String inputSource) async {
     final picker = ImagePicker();
     XFile? pickedImage;
     try {
@@ -66,16 +68,16 @@ class _UploadToStorageState extends State<UploadToStorage> {
       final String fileName = path.basename(pickedImage!.path);
       File _image = File(pickedImage.path);
 
-    processImage(
-      pathFrom: CVPathFrom.GALLERY_CAMERA,
-      pathString: _image.path,
-      thresholdValue: 150,
-      maxThresholdValue: 200,
-      thresholdType: Cv2.THRESH_BINARY,
-    );
+      processImage(
+        pathFrom: CVPathFrom.GALLERY_CAMERA,
+        pathString: _image.path,
+        thresholdValue: 150,
+        maxThresholdValue: 200,
+        thresholdType: Cv2.THRESH_BINARY,
+      );
 
       try {
-        // Original Image Upload
+        // Upload
         await storage.ref(fileName).putFile(
               _image,
               SettableMetadata(
@@ -96,6 +98,32 @@ class _UploadToStorageState extends State<UploadToStorage> {
     } catch (err) {
       if (kDebugMode) {
         print(err);
+      }
+    }
+  }
+
+  // Processed Image Upload
+  Future<void> _uploadProcessedImage(Uint8List _byte) async {
+    // File _processedImageFile = File.fromRawPath(_byte!); // Uint8List to file conversion
+    try {
+      
+      // Unique id for each processed image
+      String _processedImgID = Uuid().v4();
+      log('Processed img uploading', name: 'Inside _uploadProcessedImage ');
+      await storage.ref(_processedImgID).putData(
+            _byte,
+            SettableMetadata(
+              customMetadata: {
+                'uploaded_at': DateTime.now().toString(),
+                'description': 'processed image'
+              },
+            ),
+          );
+      // Refresh the UI
+      // setState(() {});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        print(error);
       }
     }
   }
@@ -155,8 +183,8 @@ class _UploadToStorageState extends State<UploadToStorage> {
               child: _byte != null
                   ? Image.memory(
                       _byte!,
-                      width: 300,
-                      height: 300,
+                      width: 200,
+                      height: 200,
                       fit: BoxFit.fill,
                     )
                   : SizedBox(
@@ -172,11 +200,11 @@ class _UploadToStorageState extends State<UploadToStorage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(
-                    onPressed: () => _upload('camera'),
+                    onPressed: () => _uploadOrignalImage('camera'),
                     icon: const Icon(Icons.camera),
                     label: const Text('camera')),
                 ElevatedButton.icon(
-                    onPressed: () => _upload('gallery'),
+                    onPressed: () => _uploadOrignalImage('gallery'),
                     icon: const Icon(Icons.library_add),
                     label: const Text('Gallery')),
               ],

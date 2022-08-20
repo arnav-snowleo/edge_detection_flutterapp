@@ -21,4 +21,5 @@ The following packages were used for the development of this application.
 resources referenced:
 1. https://www.educative.io/answers/how-to-upload-to-firebase-storage-with-flutter
 2. https://stackoverflow.com/a/64764390/17037797 
-3. check op images for different derivatives : https://www.tutorialspoint.com/opencv/opencv_sobel_operator.htm -->
+3. check op images for different derivatives : https://www.tutorialspoint.com/opencv/opencv_sobel_operator.htm 
+4. https://medium.com/google-developer-experts/firebase-storage-flutter-41713c6f3e02 -->
