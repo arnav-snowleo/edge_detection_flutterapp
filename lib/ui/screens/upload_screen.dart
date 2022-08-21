@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:opencv_canny_test/constants/colors.dart';
 import 'package:opencv_canny_test/constants/strings.dart';
 import 'package:opencv_canny_test/ui/screens/images_screen.dart';
-import 'package:opencv_canny_test/ui/widgets/image_placeholder_widget.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:opencv_4/factory/pathfrom.dart';
@@ -292,27 +291,6 @@ class _UploadScreenState extends State<UploadScreen> {
                               snapshot.data![idx];
                           // return ImagePlaceHolderWidget(img: image);
                           return imgPlaceHolderWidget(image);
-                          // return Card(
-                          //   margin: const EdgeInsets.symmetric(vertical: 10),
-                          //   child: Column(
-                          //     children: [
-                          //       ListTile(
-                          //         dense: false,
-                          //         leading: Image.network(image['url']),
-                          //         // title: Text(image['uploaded_at']),
-                          //         // title: Text((idx + 1).toString()),
-                          //         subtitle: Text(image['description']),
-                          //         trailing: IconButton(
-                          //           onPressed: () => _delete(image['path']),
-                          //           icon: const Icon(
-                          //             Icons.delete,
-                          //             color: Colors.red,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // );
                         },
                       );
                     }
