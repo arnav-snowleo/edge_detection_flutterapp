@@ -17,6 +17,11 @@ The following packages were used for the development of this application.
 - `opencv_4: ^1.0.0` for 
 - `permission_handler: ^9.0.2` for 
 
+DB DEMO
+
+![](db_demo/pl_cloud_firestore.png)
+![](db_demo/pl_storage.png)
+
 <!-- 
 resources referenced:
 1. https://www.educative.io/answers/how-to-upload-to-firebase-storage-with-flutter

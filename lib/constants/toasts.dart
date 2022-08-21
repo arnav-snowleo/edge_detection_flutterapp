@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:opencv_canny_test/constants/colors.dart';
 
 void dataAddedToDatabase() {
   Fluttertoast.showToast(
@@ -8,6 +9,6 @@ void dataAddedToDatabase() {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       textColor: Colors.white,
-      backgroundColor: Colors.blue[400],
+      backgroundColor: PlotlineColors.kMenuBarColor,
       fontSize: 16.0);
 }

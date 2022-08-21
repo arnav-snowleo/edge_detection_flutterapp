@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:opencv_canny_test/constants/db_constants.dart';
+import 'package:opencv_canny_test/constants/colors.dart';
 import 'package:opencv_canny_test/constants/strings.dart';
 
-class Fetched extends StatefulWidget {
-  const Fetched({Key? key}) : super(key: key);
+class AllImagesScreen extends StatefulWidget {
+  const AllImagesScreen({Key? key}) : super(key: key);
 
   @override
-  State<Fetched> createState() => _FetchedState();
+  State<AllImagesScreen> createState() => _AllImagesScreenState();
 }
 
-class _FetchedState extends State<Fetched> {
+class _AllImagesScreenState extends State<AllImagesScreen> {
   Query ref = FirebaseFirestore.instance
       .collection('img-urls')
       .orderBy('dateTime', descending: true);
@@ -24,14 +24,15 @@ class _FetchedState extends State<Fetched> {
           decoration: BoxDecoration(
             border: Border.all(
               width: 3,
-              color: Color(0xff4285f4),
+              color: PlotlineColors.kTransparentColor,
+              // color: Colors.white,
             ),
           ),
           child: Column(
             children: <Widget>[
               Container(
-                height: 30,
-                color: const Color(0xff4285f4),
+                height: 40,
+                color: PlotlineColors.kMenuBarColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[

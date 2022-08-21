@@ -14,4 +14,5 @@ class PlotlineStrings {
 
   static const String noData = 'No data in DB';
   static const String allImages = 'All Images';
+  static const String uploadImages =  'Upload Images';
 }

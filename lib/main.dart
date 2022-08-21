@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:opencv_canny_test/constants/colors.dart';
 import 'package:opencv_canny_test/home.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:opencv_canny_test/ui/ui_theme.dart' as theme;
 import 'package:opencv_canny_test/ui/widgets/upload_image_widget.dart';
-import 'package:opencv_canny_test/upload_to_storage.dart';
+import 'package:opencv_canny_test/ui/screens/upload_to_storage_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -22,13 +24,11 @@ class PlotlineApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Edge detection',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: theme.kDarkTheme,
+      darkTheme: theme.kDarkTheme,
       // home: const Home(title: 'Edge detection'),
       // home: const UploadImageWidget(),
-      home: const UploadToStorage(),
+      home: const UploadToStorageScreen(),
     );
   }
 }
