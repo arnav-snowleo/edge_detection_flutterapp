@@ -13,8 +13,8 @@ class ImagePlaceHolderWidget extends StatefulWidget {
 class _ImagePlaceHolderWidgetState extends State<ImagePlaceHolderWidget> {
   FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<void> _delete(String ref) async {
-    await _storage.ref(ref).delete();
+  Future<void> _delete() async {
+    await _storage.ref(widget.img['path']).delete();
     setState(() {});
   }
 
@@ -37,7 +37,7 @@ class _ImagePlaceHolderWidgetState extends State<ImagePlaceHolderWidget> {
             child: Image.network(widget.img['url']),
           ),
           IconButton(
-            onPressed: () => _delete(widget.img['path']),
+            onPressed: () => _delete(),
             icon: const Icon(
               Icons.delete,
               color: Colors.orange,

@@ -94,8 +94,6 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
                 },
               ),
             );
-
-        // Refresh the UI
         setState(() {});
       } on FirebaseException catch (error) {
         if (kDebugMode) {
@@ -114,7 +112,7 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
     // File _processedImageFile = File.fromRawPath(_byte!); // Uint8List to file conversion
     try {
       // Unique id for each processed image
-      String _processedImgID = Uuid().v4();
+      String _processedImgID = const Uuid().v4();
       log('Processed img uploading', name: 'Inside _uploadProcessedImage ');
       await _storage.ref(_processedImgID).putData(
             _byte,
@@ -125,7 +123,6 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
               },
             ),
           );
-      // Refresh the UI
       // setState(() {});
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -208,8 +205,6 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              // begin: Alignment.topLeft,
-              // end: Alignment.bottomRight,
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
@@ -247,12 +242,6 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           PlotlineColors.kBackgroundColor),
                     ),
-                    // style: ElevatedButton.styleFrom(
-                    //   primary: PlotlineColors.kBackgroundColor,
-                    //   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    //   textStyle:
-                    //       TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    // ),
                     onPressed: () => _uploadOrignalImage('camera'),
                     icon: const Icon(Icons.camera),
                     label: const Text(PlotlineStrings.pickFromCamera),
