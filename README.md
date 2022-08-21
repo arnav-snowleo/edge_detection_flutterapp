@@ -7,6 +7,10 @@
 3. Process the Image
 4. Store Processed Image in database
 
+## Documentation 
+[doc](https://docs.google.com/document/d/e/2PACX-1vTVuOO8l_s6MKuflOv0uD2r3Vjrye9aZm6VAEMTtN8dwoYa5DUPlE204Ruh4xjls7nSdchVektV452N/pub)
+
+
 ## Dependencies
 
 The following packages were used for the development of this application.
