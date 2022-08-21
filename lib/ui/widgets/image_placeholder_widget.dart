@@ -1,67 +1,69 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:opencv_canny_test/constants/colors.dart';
+// NOT IN USE
 
-class ImagePlaceHolderWidget extends StatefulWidget {
-  const ImagePlaceHolderWidget({Key? key, required this.img}) : super(key: key);
-  final Map<String, dynamic> img;
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:flutter/material.dart';
+// import 'package:opencv_canny_test/constants/colors.dart';
 
-  @override
-  State<ImagePlaceHolderWidget> createState() => _ImagePlaceHolderWidgetState();
-}
+// class ImagePlaceHolderWidget extends StatefulWidget {
+//   const ImagePlaceHolderWidget({Key? key, required this.img}) : super(key: key);
+//   final Map<String, dynamic> img;
 
-class _ImagePlaceHolderWidgetState extends State<ImagePlaceHolderWidget> {
-  FirebaseStorage _storage = FirebaseStorage.instance;
+//   @override
+//   State<ImagePlaceHolderWidget> createState() => _ImagePlaceHolderWidgetState();
+// }
 
-  Future<void> _delete() async {
-    await _storage.ref(widget.img['path']).delete();
-    setState(() {});
-  }
+// class _ImagePlaceHolderWidgetState extends State<ImagePlaceHolderWidget> {
+//   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: PlotlineColors.kSecondaryTextColor,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      height: 150,
-      width: MediaQuery.of(context).size.width * 0.40,
-      child: Column(
-        children: [
-          Text(widget.img['description']),
-          SizedBox(
-            height: 100,
-            width: MediaQuery.of(context).size.width,
-            child: Image.network(widget.img['url']),
-          ),
-          IconButton(
-            onPressed: () => _delete(),
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.orange,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   Future<void> _delete() async {
+//     await _storage.ref(widget.img['path']).delete();
+//     setState(() {});
+//   }
 
-                        // return Card(
-                        //   margin: const EdgeInsets.symmetric(vertical: 10),
-                        //   child: ListTile(
-                        //     dense: false,
-                        //     leading: Image.network(image['url']),
-                        //     title: Text(image['uploaded_at']),
-                        //     subtitle: Text(image['description']),
-                        //     trailing: IconButton(
-                        //       onPressed: () => _delete(image['path']),
-                        //       icon: const Icon(
-                        //         Icons.delete,
-                        //         color: Colors.red,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // );
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       alignment: Alignment.center,
+//       decoration: BoxDecoration(
+//         color: PlotlineColors.kSecondaryTextColor,
+//         borderRadius: BorderRadius.circular(15),
+//       ),
+//       height: 150,
+//       width: MediaQuery.of(context).size.width * 0.40,
+//       child: Column(
+//         children: [
+//           Text(widget.img['description']),
+//           SizedBox(
+//             height: 100,
+//             width: MediaQuery.of(context).size.width,
+//             child: Image.network(widget.img['url']),
+//           ),
+//           IconButton(
+//             onPressed: () => _delete(),
+//             icon: const Icon(
+//               Icons.delete,
+//               color: Colors.orange,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+//                         // return Card(
+//                         //   margin: const EdgeInsets.symmetric(vertical: 10),
+//                         //   child: ListTile(
+//                         //     dense: false,
+//                         //     leading: Image.network(image['url']),
+//                         //     title: Text(image['uploaded_at']),
+//                         //     subtitle: Text(image['description']),
+//                         //     trailing: IconButton(
+//                         //       onPressed: () => _delete(image['path']),
+//                         //       icon: const Icon(
+//                         //         Icons.delete,
+//                         //         color: Colors.red,
+//                         //       ),
+//                         //     ),
+//                         //   ),
+//                         // );

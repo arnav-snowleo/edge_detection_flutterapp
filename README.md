@@ -10,6 +10,8 @@
 ## Documentation 
 [doc](https://docs.google.com/document/d/e/2PACX-1vTVuOO8l_s6MKuflOv0uD2r3Vjrye9aZm6VAEMTtN8dwoYa5DUPlE204Ruh4xjls7nSdchVektV452N/pub)
 
+## Canny edge detection (python) repo
+[link](https://github.com/arnav-snowleo/canny-edge-detection-python)
 
 ## Dependencies
 
@@ -22,6 +24,21 @@ The following packages were used for the development of this application.
 - `image_picker: ^0.8.5+3` for picking images from gallery/camera
 - `opencv_4: ^1.0.0` for using opencv libraries to work with, we used sobel operator
 - `uuid: ^3.0.6` for generating unique ids for the processed images  
+
+## APP DEMO
+
+Home Screen
+![](app_demo/ss1.jpeg)
+
+All Images
+![](app_demo/ss2.jpeg)
+
+Home Screen < B/W photo scan >
+![](app_demo/ss3.jpeg)
+
+All Images Screen < B/W photo scan >
+![](app_demo/ss4.jpeg)
+
 
 ## DB DEMO
 

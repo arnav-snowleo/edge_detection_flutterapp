@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:opencv_canny_test/constants/colors.dart';
 import 'package:opencv_canny_test/constants/strings.dart';
-import 'package:opencv_canny_test/ui/screens/all_images_screen.dart';
+import 'package:opencv_canny_test/ui/screens/images_screen.dart';
 import 'package:opencv_canny_test/ui/widgets/image_placeholder_widget.dart';
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
@@ -18,17 +18,17 @@ import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opencv_canny_test/constants/toasts.dart' as toasts;
 
-class UploadToStorageScreen extends StatefulWidget {
-  const UploadToStorageScreen({Key? key}) : super(key: key);
+class UploadScreen extends StatefulWidget {
+  const UploadScreen({Key? key}) : super(key: key);
 
   @override
-  _UploadToStorageScreenState createState() => _UploadToStorageScreenState();
+  _UploadScreenState createState() => _UploadScreenState();
 }
 
-class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
+class _UploadScreenState extends State<UploadScreen> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  File? _image;
+  // File? _image;
   Uint8List? _byte;
 
   // Process Image
@@ -190,6 +190,27 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
   }
   //--------------------------
 
+  Widget processedImageWidget() {
+    return Container(
+      margin: const EdgeInsets.only(top: 5),
+      child: _byte != null
+          ? Image.memory(
+              _byte!,
+              width: 150,
+              height: 150,
+              fit: BoxFit.fill,
+            )
+          : const SizedBox(
+              width: 150,
+              height: 150,
+              child: Icon(
+                Icons.camera_alt,
+                color: PlotlineColors.kPrimaryTextColor,
+              ),
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -205,35 +226,19 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                PlotlineColors.kTopGradient,
-                PlotlineColors.kBottomGradient,
-              ]),
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              PlotlineColors.kTopGradient,
+              PlotlineColors.kBottomGradient,
+            ],
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 5),
-                child: _byte != null
-                    ? Image.memory(
-                        _byte!,
-                        width: 150,
-                        height: 150,
-                        fit: BoxFit.fill,
-                      )
-                    : SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-              ),
+              processedImageWidget(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -263,8 +268,7 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
                       PlotlineColors.kBackgroundColor),
                 ),
                 onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => const AllImagesScreen()),
+                  MaterialPageRoute(builder: (context) => const ImagesScreen()),
                 ),
                 icon: const Icon(Icons.camera),
                 label: const Text(PlotlineStrings.allImages),
@@ -286,7 +290,8 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
                         itemBuilder: (ctx, idx) {
                           final Map<String, dynamic> image =
                               snapshot.data![idx];
-                          return ImagePlaceHolderWidget(img: image);
+                          // return ImagePlaceHolderWidget(img: image);
+                          return imgPlaceHolderWidget(image);
                           // return Card(
                           //   margin: const EdgeInsets.symmetric(vertical: 10),
                           //   child: Column(
@@ -312,7 +317,9 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
                       );
                     }
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: PlotlineColors.kPrimaryTextColor,
+                      ),
                     );
                   },
                 ),
@@ -320,6 +327,35 @@ class _UploadToStorageScreenState extends State<UploadToStorageScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget imgPlaceHolderWidget(final Map<String, dynamic> img) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: PlotlineColors.kSecondaryTextColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      height: 150,
+      width: MediaQuery.of(context).size.width * 0.40,
+      child: Column(
+        children: [
+          Text(img['description']),
+          SizedBox(
+            height: 100,
+            width: MediaQuery.of(context).size.width,
+            child: Image.network(img['url']),
+          ),
+          IconButton(
+            onPressed: () => _delete(img['path']),
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.orange,
+            ),
+          ),
+        ],
       ),
     );
   }

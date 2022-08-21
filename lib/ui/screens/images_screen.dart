@@ -3,14 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opencv_canny_test/constants/colors.dart';
 import 'package:opencv_canny_test/constants/strings.dart';
 
-class AllImagesScreen extends StatefulWidget {
-  const AllImagesScreen({Key? key}) : super(key: key);
+class ImagesScreen extends StatefulWidget {
+  const ImagesScreen({Key? key}) : super(key: key);
 
   @override
-  State<AllImagesScreen> createState() => _AllImagesScreenState();
+  State<ImagesScreen> createState() => _ImagesScreenState();
 }
 
-class _AllImagesScreenState extends State<AllImagesScreen> {
+class _ImagesScreenState extends State<ImagesScreen> {
   Query ref = FirebaseFirestore.instance
       .collection('img-urls')
       .orderBy('dateTime', descending: true);
@@ -25,7 +25,6 @@ class _AllImagesScreenState extends State<AllImagesScreen> {
             border: Border.all(
               width: 3,
               color: PlotlineColors.kTransparentColor,
-              // color: Colors.white,
             ),
           ),
           child: Column(
