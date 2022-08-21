@@ -11,4 +11,7 @@ class PlotlineStrings {
   /// [View_Image]
   static const String getOriginalImage = 'View original Image';
   static const String getProcessedImage = 'View processed Image';
+
+  static const String noData = 'No data in DB';
+  static const String allImages = 'All Images';
 }
